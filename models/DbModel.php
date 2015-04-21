@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class DbModel {
 
@@ -478,10 +478,10 @@ class DbModel {
         $netto = 0;
         $brutto = 0;
 
-//        if (preg_match('#([0-9]+|-+)\ \/\ ([0-9]+|-+)\ \/\ \(([0-9]+|-+)\)#', $points, $matches)) {
-//            $netto = (int) $matches[3];
-//            $brutto = (int) $matches[1];
-//        }
+        if (preg_match('#([0-9]+|-+)\ \/\ ([0-9]+|-+)\ \/\ \(([0-9]+|-+)\)#', $points, $matches)) {
+            $netto = (int) $matches[3];
+            $brutto = (int) $matches[1];
+        }
 
         return array(
                 'netto'     =>  $netto,
@@ -977,7 +977,7 @@ class DbModel {
                 $sql = $this->connection->translate('[premium] = %i', 1);
                 break;
             case 'fallSeries':
-                $d = new \DateTime('2013-09-28');
+                $d = new \DateTime('2014-09-28');
                 $sql = $this->connection->translate('[quarter_id] IS NULL AND [tournament_id] != %i AND [play_date] >= %t AND [premium] = %i', 208, $d->getTimestamp(), 0);
                 break;
         }
@@ -1003,7 +1003,7 @@ class DbModel {
     }
 
     private function _isTourFallSeries($tour) {
-        $d = new \DateTime('2013-09-28');
+        $d = new \DateTime('2014-09-28');
         return ($tour['quarter_id'] == NULL) && ($tour['tournament_id'] != 208) && ($tour['premium'] == 0) && ($tour['play_date'] >= $d);
         //return TRUE;
     }
@@ -1056,7 +1056,7 @@ class DbModel {
 //                $sql = $this->connection->translate('[premium] = %i', 1);
 //                break;
 //            case 'fallSeries':
-//                $d = new \DateTime('2013-09-28');
+//                $d = new \DateTime('2014-09-28');
 //                $sql = $this->connection->translate('[quarter_id] IS NULL AND [tournament_id] != %i AND [play_date] >= %t AND [premium] = %i', 208, $d->getTimestamp(), 0);
 //                break;
 //        }
@@ -1546,4 +1546,11 @@ class DbModel {
         return $this->connection->query('UPDATE [cgf_tournaments] SET [course_id] = %i WHERE [tournament_id] IN %in', $newCourseId, $toursIds);
     }
 
+	
+	/**hajek modification**/
+	public function addQuarter($data, $year){
+		$data['season_id'] = $this->connection->fetchSingle("SELECT [season_id] FROM [cgf_seasons] WHERE  [year]=%i",$year);
+		return $this->connection->query("INSERT INTO [cgf_quarters] ",$data);
+	}
+	
 }

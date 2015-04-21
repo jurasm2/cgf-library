@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 require_once 'lib/dibi-minified/dibi.min.php';
 require_once 'lib/soap/nusoap.php';
@@ -215,11 +215,11 @@ class Cgf {
 
         $season = $this->dbModel->getSeasonByTournamentId($tournamentId);
 
-//        print_r($season);
-//        die();
 
         $tournament = $this->dbModel->getTournamentById($tournamentId);
 
+//        print_r($tournament);
+//        die();
 
         // if the tournament params are eneted manually, skip category deletion
         if (!$tournament['manual_entry']) {
@@ -387,13 +387,7 @@ class Cgf {
 
 
     public function addQuarter($data, $year) {
-
-        print_r($data);
-        print_r($year);
-
-
-
-        die();
+		return $this->dbModel->addQuarter($data, $year);
     }
 
 
@@ -417,7 +411,7 @@ class Cgf {
 
 
     public function testPremium() {
-        $chart = $this->dbModel->getChart('premium', 10, 2013);
+        $chart = $this->dbModel->getChart('premium', 10, 2014);
 
         $lastScore = NULL;
         $lastTours = NULL;
@@ -744,18 +738,18 @@ class Cgf {
                                     $letsgolfFs = 0;
 
 
-                                    if (isset($result['letsgolf_fs']) && trim($result['letsgolf_fs']) != '') {
-                                        // points inserted manually
-                                        $letsgolfFs = (int) $result['letsgolf_fs'];
-                                    } else {
-                                        // automatic (cgf)
-
-//                                        print_r($category);
-//                                        echo 'Died in ' . __METHOD__ . ' in line: ' . __LINE__;
-//                                        die();
-                                        $letsgolfFs = $this->computeFsPoints($result['ORDER_TO'],
-                                                                             ($category['type'] == 'fs_final') ? 'final' : 'common');
-                                    }
+//                                    if (isset($result['letsgolf_fs']) && trim($result['letsgolf_fs']) != '') {
+//                                        // points inserted manually
+//                                        $letsgolfFs = (int) $result['letsgolf_fs'];
+//                                    } else {
+//                                        // automatic (cgf)
+//
+////                                        print_r($category);
+////                                        echo 'Died in ' . __METHOD__ . ' in line: ' . __LINE__;
+////                                        die();
+//                                        $letsgolfFs = $this->computeFsPoints($result['ORDER_TO'],
+//                                                                             ($category['type'] == 'fs_final') ? 'final' : 'common');
+//                                    }
 
 //                                    var_dump($letsgolfFs);
 //                                    echo 'Died in ' . __METHOD__ . ' in line: ' . __LINE__;
@@ -1099,8 +1093,7 @@ class Cgf {
 	});
 
         $fsPlayerCard = array_filter($playerCard, function($tour) {
-            // filter all tours older than 29.9.2013
-            $startOfFs = new \DateTime('2013-09-28');
+            // filter all tours older than 29.9.2014            $startOfFs = new \DateTime('2014-09-28');
             return $tour['play_date'] >= $startOfFs;
 	});
 
@@ -1318,7 +1311,7 @@ class Cgf {
 
     protected function isFallSeries($tournament) {
         if ($tournament['play_date'] instanceof \DateTime) {
-            return $tournament['play_date'] >= new \DateTime('2013-09-28');
+            return $tournament['play_date'] >= new \DateTime('2014-09-28');
         }
         return false;
     }
