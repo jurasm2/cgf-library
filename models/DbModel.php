@@ -977,7 +977,7 @@ class DbModel {
                 $sql = $this->connection->translate('[premium] = %i', 1);
                 break;
             case 'fallSeries':
-                $d = new \DateTime('2014-09-28');
+                $d = new \DateTime(date('Y').'-09-28');
                 $sql = $this->connection->translate('[quarter_id] IS NULL AND [tournament_id] != %i AND [play_date] >= %t AND [premium] = %i', 208, $d->getTimestamp(), 0);
                 break;
         }
@@ -1003,7 +1003,7 @@ class DbModel {
     }
 
     private function _isTourFallSeries($tour) {
-        $d = new \DateTime('2014-09-28');
+        $d = new \DateTime(date('Y').'-09-28');
         return ($tour['quarter_id'] == NULL) && ($tour['tournament_id'] != 208) && ($tour['premium'] == 0) && ($tour['play_date'] >= $d);
         //return TRUE;
     }

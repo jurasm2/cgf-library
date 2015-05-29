@@ -411,7 +411,8 @@ class Cgf {
 
 
     public function testPremium() {
-        $chart = $this->dbModel->getChart('premium', 10, 2014);
+        $currentYear = date('Y');
+        $chart = $this->dbModel->getChart('premium', 10, $currentYear);
 
         $lastScore = NULL;
         $lastTours = NULL;
@@ -1093,7 +1094,9 @@ class Cgf {
 	});
 
         $fsPlayerCard = array_filter($playerCard, function($tour) {
-            // filter all tours older than 29.9.2014            $startOfFs = new \DateTime('2014-09-28');
+            // filter all tours older than 29.9.2014
+
+            $startOfFs = new \DateTime(date('Y').'-09-28');
             return $tour['play_date'] >= $startOfFs;
 	});
 
@@ -1311,7 +1314,7 @@ class Cgf {
 
     protected function isFallSeries($tournament) {
         if ($tournament['play_date'] instanceof \DateTime) {
-            return $tournament['play_date'] >= new \DateTime('2014-09-28');
+            return $tournament['play_date'] >= new \DateTime(date('Y').'-09-28');
         }
         return false;
     }
