@@ -72,7 +72,7 @@ class Cgf {
 
         $wsdl = "https://ws.cgf.cz/DataService.asmx?wsdl";
         $soapCredentials = array(
-            'sslcertfile' => __DIR__.'/crt/wc-cgf028.pem',
+            'sslcertfile' => __DIR__.'/crt/wc-cgf121.pem',
             //'sslcertfile' => __DIR__ . '/crt/mujcert.pem',
             'passphrase' => '',
             'verifypeer' => FALSE
@@ -258,8 +258,8 @@ class Cgf {
 
             $numOfResults = $this->importResults($assocCateogries, $tournament['manual_entry']);
 
-//            print_r($numOfResults);
-//            die();
+            //print_r($assocCateogries);
+            //die();
 
             // recompute
             $this->updateChartsAndBonusPoints($season['season_id']);
